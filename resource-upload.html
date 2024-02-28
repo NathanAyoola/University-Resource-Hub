@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Resource Upload | University Resource Hub</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <nav class="main-menu">
+      <h1>University Resource Hub</h1>
+      <img class="logo" src="final black.png" alt="" />
+      <ul>
+        <li class="nav-item">
+            <b></b>
+            <b></b>
+            <a href="index.html">
+              <i class="fa fa-house nav-icon"></i>
+              <span class="nav-text">Home</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-user nav-icon"></i>
+              <span class="nav-text">Profile</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <b></b>
+            <b></b>
+            <a href="resource-upload.html">
+              <i class="fa fa-calendar-check nav-icon"></i>
+              <span class="nav-text">Schedule</span>
+            </a>
+          </li>
+          
+
+        
+            <li class="nav-item">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-person-running nav-icon"></i>
+              <span class="nav-text">Activities</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-sliders nav-icon"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+      </ul>
+    </nav>
+
+    <!-- Include the resource upload content directly -->
+    <section id="resource-upload-section">
+        <div class="resource-upload-section" id="dropZone">
+          <h1>Resource Upload</h1>
+          <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+            <div class="full-drop-zone">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Drag & Drop files here or click to choose files</p>
+            </div>
+            <input type="file" id="resourceFile" name="resourceFile" />
+            <button type="submit">Upload Resource</button>
+          </form>
+        </div>
+      </section>
+      
+
+  </main>
+  <script src="script.js"></script>
+</body>
+
+</html>
