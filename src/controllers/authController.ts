@@ -16,6 +16,14 @@ class AuthController extends Controller<userInterface> {
         }
       };
 
+    login = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this.service.login(req.body);
+          HttpResponse.send(res, result);
+        } catch (error) {
+          next(error);
+        }
+      };
 }
 
 

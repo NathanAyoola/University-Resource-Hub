@@ -8,7 +8,10 @@ class AuthRoute extends Route<userInterface> {
     initRoutes() {
        this.router
        .route('/signup')
-       .post(this.controller.registration) 
+       .post(this.controller.registration);
+       this.router
+       .route('/signin')
+       .post(this.controller.login)
 
 
        return this.router;
