@@ -6,6 +6,7 @@ export default abstract class ClaimsRoute<T> {
   abstract controller: Controller<T>;
   constructor(
     useAuth = false
+    
   ){
     this.router = Router();
   }

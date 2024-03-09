@@ -4,6 +4,7 @@ export interface userInterface{
     lastName: string,
     password: string,
     studentNumber:string,
+    verifiedEmail: boolean;
     isVerified:Boolean,
     verificationToken?: string;
     resetToken?: string;

@@ -12,7 +12,7 @@ export default abstract class Repository<T> {
     return this.model.find(doc);
   }
 
-  findOne(data: string | Partial<T>) {
+  findOne(data?: string | Partial<T>) {
     if (typeof data === 'object') return this.model.findOne(data);
     return this.model.findById(data);
   }
