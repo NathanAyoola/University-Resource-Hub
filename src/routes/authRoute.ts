@@ -11,8 +11,17 @@ class AuthRoute extends Route<userInterface> {
        .post(this.controller.registration);
        this.router
        .route('/signin')
-       .post(this.controller.login)
-
+       .post(this.controller.login);
+       this.router
+       .route('/verifyEmail')
+       .get( this.controller.verifyEmail);
+ 
+     this.router
+       .route('/forgotPassword')
+       .post( this.controller.forgotPassword);
+       this.router
+       .route('/resetPassword/:token')
+       .post( this.controller.resetPassword);
 
        return this.router;
     }

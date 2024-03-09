@@ -24,6 +24,36 @@ class AuthController extends Controller<userInterface> {
           next(error);
         }
       };
+
+      verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await authService.verifyEmail(req.params.token);
+          HttpResponse.send(res, { message: 'user verified', user: result });
+        } catch (error) {
+          next(error);
+        }
+      };
+    
+      forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await authService.getResetToken(req.body.email);
+          HttpResponse.send(res, { message: 'email sent', data: result });
+        } catch (error) {
+          next(error);
+        }
+      }; 
+      
+      resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await authService.resetPassword(
+            req.params.token,
+            req.body.password
+          );
+          HttpResponse.send(res, { success: result });
+        } catch (error) {
+          next(error);
+        }
+      };
 }
 
 

@@ -4,6 +4,8 @@ import Service from '../services/service';
 import SessionService from '../services/sessionService';
 import HttpError from '../utils/httpError';
 import config from 'config';
+import Emailing from '../helpers/emailing';
+import generateToken from '../helpers/generateToken';
 
 
 
@@ -13,6 +15,7 @@ class AuthService extends Service<userInterface> {
  events = null
  externalServices = {
     SessionService,
+    Emailing
   };
 
   userRefreshToken = USE_REFRESH_TOKEN;
@@ -24,13 +27,12 @@ class AuthService extends Service<userInterface> {
           );
           if (_user) throw new HttpError('user exits', 406);
     
-          const verificationToken = (
-            Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000
-          ).toString();
+          const verificationToken = generateToken()
+          console.log(verificationToken)
           data.verificationToken = verificationToken;
 
           const user = await this.create(<userInterface>data);
-
+          this.externalServices.Emailing.verifyEmail(user.email, data.verificationToken);
           const token = user.getSignedToken();
 
           return { user, token };
@@ -69,8 +71,56 @@ class AuthService extends Service<userInterface> {
         } catch (error: any) {
           throw new Error(error);
         }
-      }
+      };
 
+      async verifyEmail(token: string) {
+      
+        try {
+            console.log(token);
+          const user = await this.findOne({
+            verificationToken: token
+          });
+        
+          if (!user) throw new HttpError('No user found', 406);
+    
+          user.verifiedEmail = true;
+          user.verificationToken = undefined;
+          const result = await user.save();
+          return result;
+        } catch (error: any) {
+            console.log(error)
+          throw new Error(error);
+        }
+      };
+
+      async getResetToken(email: string) {
+        try {
+          const user = await this.findOne({ email });
+          if (!user) throw new HttpError('cannot find user', 404);
+          user.resetToken = generateToken()
+          await user.save();
+    
+          this.externalServices.Emailing.sendResetPassword(user.email, user.resetToken);
+        } catch (error: any) {
+          throw new Error(error);
+        }
+      }  
+
+      async resetPassword(token: string, password: string) {
+        try {
+          const user = await this.findOne({ resetToken: token }).select(
+            '+password'
+          );
+    
+          if (!user) throw new HttpError('User not found', 404);
+          user.password = password;
+          user.resetToken = undefined;
+          await user.save();
+          return true;
+        } catch (error: any) {
+          throw new Error(error);
+        }
+      }
 }
 
 export default new AuthService(UserRepository);
